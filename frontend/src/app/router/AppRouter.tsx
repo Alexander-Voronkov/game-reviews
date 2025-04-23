@@ -30,6 +30,12 @@ const GamePage = lazy(() =>
   }))
 );
 
+const ProfilePage = lazy(() =>
+  import("@/pages/profile").then((mod) => ({
+    default: mod.ProfilePage,
+  }))
+);
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -54,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "search/games/",
         element: <SearchGamesPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
       },
     ],
   },
