@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { Layout } from "../layout";
 //import { GamesPage } from "@/pages/games/ui/GamesPage";
 //import { GamePage } from "@/pages/game";
@@ -6,6 +10,7 @@ import { Layout } from "../layout";
 import { useTheme } from "styled-components";
 import { ErrorPage } from "@/pages/error";
 import { lazy } from "react";
+import { About } from "@/pages/about";
 
 const GamesPage = lazy(() =>
   import("@/pages/games").then((mod) => ({
@@ -32,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Home page</h1>,
+        element: <Navigate to="/games" />,
       },
       {
         path: "/games",
@@ -43,8 +48,8 @@ const router = createBrowserRouter([
         element: <GamePage />,
       },
       {
-        path: "/reviews",
-        element: <h1>Reviews page</h1>,
+        path: "/about",
+        element: <About />,
       },
       {
         path: "search/games/",

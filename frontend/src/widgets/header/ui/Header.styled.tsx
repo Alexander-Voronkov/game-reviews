@@ -30,6 +30,7 @@ export const NavMenuList = styled.ul`
 
 export const NavMenuItem = styled.li`
   display: inline-block;
+  white-space: nowrap;
 `;
 
 export const HeaderRight = styled.div`

@@ -37,18 +37,6 @@ export const Header = () => {
             </NavMenuItem>
             <NavMenuItem>
               <NavLink
-                to="/reviews"
-                className={({ isActive }) =>
-                  isActive
-                    ? "header-nav-menu-link"
-                    : "header-nav-menu-link_active"
-                }
-              >
-                Reviews
-              </NavLink>
-            </NavMenuItem>
-            <NavMenuItem>
-              <NavLink
                 to="/about"
                 className={({ isActive }) =>
                   isActive
@@ -56,7 +44,7 @@ export const Header = () => {
                     : "header-nav-menu-link_active"
                 }
               >
-                Contacts
+                About Developer
               </NavLink>
             </NavMenuItem>
           </NavMenuList>

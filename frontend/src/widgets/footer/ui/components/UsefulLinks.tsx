@@ -12,10 +12,7 @@ export const UsefulLinks = () => {
       <FooterHeaderStyled>Useful links</FooterHeaderStyled>
       <FooterListStyled>
         <FooterListItemStyled>
-          <FooterLinkStyled href="#">Games</FooterLinkStyled>
-        </FooterListItemStyled>
-        <FooterListItemStyled>
-          <FooterLinkStyled href="#">Reviews</FooterLinkStyled>
+          <FooterLinkStyled href="/games">Games</FooterLinkStyled>
         </FooterListItemStyled>
         <FooterListItemStyled>
           <FooterLinkStyled href="#">Profile</FooterLinkStyled>

@@ -12,13 +12,14 @@ export const Contacts = () => {
       <FooterHeaderStyled>Contacts</FooterHeaderStyled>
       <FooterListStyled>
         <FooterListItemStyled>
-          <FooterLinkStyled href="#">Telegram</FooterLinkStyled>
+          <FooterLinkStyled href="http://t.me/adema_deft">
+            Telegram
+          </FooterLinkStyled>
         </FooterListItemStyled>
         <FooterListItemStyled>
-          <FooterLinkStyled href="#">Email</FooterLinkStyled>
-        </FooterListItemStyled>
-        <FooterListItemStyled>
-          <FooterLinkStyled href="#">Instagram</FooterLinkStyled>
+          <FooterLinkStyled href="mailto:pubgplayer29112004@gmail.com">
+            Email
+          </FooterLinkStyled>
         </FooterListItemStyled>
       </FooterListStyled>
     </FooterColStyled>
