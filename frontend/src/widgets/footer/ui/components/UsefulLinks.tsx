@@ -15,7 +15,7 @@ export const UsefulLinks = () => {
           <FooterLinkStyled href="/games">Games</FooterLinkStyled>
         </FooterListItemStyled>
         <FooterListItemStyled>
-          <FooterLinkStyled href="#">Profile</FooterLinkStyled>
+          <FooterLinkStyled href="/profile">Profile</FooterLinkStyled>
         </FooterListItemStyled>
       </FooterListStyled>
     </FooterColStyled>
