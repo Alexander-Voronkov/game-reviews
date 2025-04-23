@@ -7,6 +7,6 @@ COPY . .
 RUN npm run build
 # Stage 2
 FROM nginx:latest
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html
 EXPOSE 80

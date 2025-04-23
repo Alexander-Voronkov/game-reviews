@@ -9,7 +9,7 @@ COPY ["GameReviews.Domain/GameReviews.Domain.csproj", "GameReviews.Domain/"]
 COPY ["GameReviews.Application/GameReviews.Application.csproj", "GameReviews.Application/"]
 COPY ["GameReviews.Infrastructure/GameReviews.Infrastructure.csproj", "GameReviews.Infrastructure/"]
 COPY ["GameReviews.Web/GameReviews.Web.csproj", "GameReviews.Web/"]
-RUN dotnet restore "./GameReviews.Web/./GameReviews.Web.csproj"
+RUN dotnet restore "./GameReviews.Web/GameReviews.Web.csproj"
 COPY . .
 WORKDIR "/src/GameReviews.Web"
 RUN dotnet build "./GameReviews.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
