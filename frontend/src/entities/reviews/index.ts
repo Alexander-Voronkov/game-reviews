@@ -1,0 +1,1 @@
+export { useGameReviewsQuery } from "./api/useGameReviewsQuery";

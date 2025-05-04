@@ -8,12 +8,30 @@ export interface GameDetailsDto {
   cover?: ImageDto;
   screenshots?: ImageDto[];
 }
+
+export interface GameReviewInfoDto {
+  id: number;
+  title: string;
+  content?: string;
+  rating: number;
+  createdAt: string;
+  author: {
+    id: number;
+    username: string;
+  };
+  game: {
+    id: number;
+    name: string;
+  };
+}
+
 export interface GameInfoDto {
   id: number;
   name: string;
   description: string;
   cover?: ImageDto;
 }
+
 export interface PagedList<T> {
   items: T[];
   page: number;
@@ -22,6 +40,7 @@ export interface PagedList<T> {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
 }
+
 interface ImageDto {
   url: string;
   width?: number;
@@ -33,6 +52,13 @@ interface EntityFilter {
   sortColumn?: string;
   sortOrder?: string;
 }
+
+export interface GameReviewsFilter {
+  page?: number;
+  pageSize?: number;
+  gameId: number;
+}
+
 export interface GamesFilter extends EntityFilter {
   category?: string;
   startYear?: string;

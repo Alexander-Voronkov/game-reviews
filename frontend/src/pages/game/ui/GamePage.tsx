@@ -8,7 +8,7 @@ import {
   PlatformImage,
   PlatformsContainer,
 } from "./GamePage.styled";
-import { Skeleton, Typography } from "@mui/material";
+import { Pagination, Skeleton, Typography } from "@mui/material";
 import { getFormattedDate, getFormattedImageUrl } from "@/shared/lib";
 import { useGameQuery } from "@/entities/game";
 import { GameInfoLabel } from "./GameInfoLabel";
@@ -20,7 +20,50 @@ const logos = [
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/XBOX_logo_2012.svg/2560px-XBOX_logo_2012.svg.png",
 ];
 
+import { useAuth } from "@/entities/auth";
+import { TextField, Button, Rating, Box } from "@mui/material";
+import { useState } from "react";
+import httpClient from "@/shared/api/httpClient";
+import { useGameReviewsQuery } from "@/entities/reviews";
+import { GameReviewsFilter } from "@/shared/api/types";
+import { useGameReviewsFilters } from "@/entities/reviews/lib/useGameReviewsFilters";
+
+
 export const GamePage = () => {
+  const { user } = useAuth();
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewContent, setReviewContent] = useState("");
+  const [reviewRating, setReviewRating] = useState<number | null>(0);
+  const { filters, setFilters } = useGameReviewsFilters();
+
+  console.log(filters);
+
+  const queryFilters: GameReviewsFilter = {
+    page: filters.page,
+    gameId: filters.gameId,
+  };
+
+  const { data: gameReviews, isFetching: isLoading } = useGameReviewsQuery(queryFilters);
+
+  const handleReviewSubmit = () => {
+    if (!gameId || reviewRating === null) return;
+
+    const reviewPayload = {
+      gameId: {value: gameId},
+      title: reviewTitle,
+      content: reviewContent,
+      rating: reviewRating,
+    };
+
+    console.log("Submitting review:", reviewPayload);
+    
+    httpClient.post(import.meta.env.VITE_API_URL + '/reviews', reviewPayload).then(x => {
+      setReviewTitle("");
+      setReviewContent("");
+      setReviewRating(0);
+    });
+  };
+
   const [search] = useSearchParams();
   const id = search.get("id");
 
@@ -87,6 +130,95 @@ export const GamePage = () => {
         </GameContent>
       </GameContentWrapper>
       <Typography>{game.description}</Typography>
+
+      <Box mt={4}>
+      <Typography variant="h5" gutterBottom>
+        Reviews
+      </Typography>
+
+      {isLoading ? (
+        <Skeleton height={100} variant="rectangular" />
+      ) : gameReviews?.items.length === 0 ? (
+        <Typography>No reviews yet.</Typography>
+      ) : (
+        gameReviews?.items?.map((review) => { console.log(review); return (
+          <Box key={review.id} border={1} p={2} borderRadius={2} mb={2}>
+            <Typography variant="h6">{review.title}</Typography>
+            <Rating value={review.rating} readOnly />
+            <Typography variant="body2" color="textSecondary">
+              by {review.author.username} on{" "}
+              {new Date(review.createdAt).toLocaleDateString()}
+            </Typography>
+            <Typography mt={1}>{review.content}</Typography>
+          </Box>
+        )})
+      )}
+
+      {(gameReviews?.totalCount ?? 0) > 1 && (
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Pagination
+                count={Math.ceil((gameReviews?.totalCount ?? 0) / (gameReviews?.pageSize ?? 1))}
+                onChange={(_, number) =>
+                  setFilters({ ...filters, page: number })
+                }
+                page={filters.page}
+              />
+        </Box>
+      )}
+    </Box>
+
+      <Box mt={4}>
+  {user ? (
+    <>
+      <Typography variant="h5" gutterBottom>
+        Leave a Review
+      </Typography>
+      <TextField
+        fullWidth
+        label="Title"
+        variant="outlined"
+        value={reviewTitle}
+        onChange={(e) => setReviewTitle(e.target.value)}
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        label="Content"
+        multiline
+        minRows={4}
+        variant="outlined"
+        value={reviewContent}
+        onChange={(e) => setReviewContent(e.target.value)}
+        margin="normal"
+      />
+      <Box display="flex" alignItems="center" mt={2}>
+        <Typography component="legend" sx={{ mr: 2 }}>
+          Rating
+        </Typography>
+        <Rating
+          name="rating"
+          value={reviewRating}
+          onChange={(_, newValue) => setReviewRating(newValue)}
+        />
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleReviewSubmit}
+        sx={{ mt: 2 }}
+        disabled={
+          !reviewTitle.trim() || !reviewContent.trim() || reviewRating === 0
+        }
+      >
+        Submit Review
+      </Button>
+    </>
+  ) : (
+    <Typography color="textSecondary">
+      You need to login to write a review.
+    </Typography>
+  )}
+</Box>
     </GamePageWrapper>
   );
 };
